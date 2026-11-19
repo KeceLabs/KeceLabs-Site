@@ -15,17 +15,11 @@
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=86400, must-revalidate"
-
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=86400, must-revalidate"
+# CSS and JS use Netlify's default caching (always revalidated), so visitors get
+# updated styles immediately after each deploy. The ?v= query on each <link>/<script>
+# also forces a fresh copy; bump it when you change styles.css or script.js.
 
 [[headers]]
   for = "/*.svg"

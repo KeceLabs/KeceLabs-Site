@@ -267,7 +267,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .mobile-menu-meta a { text-decoration: none; }
 body.menu-open { overflow: hidden; }
 /* backdrop-filter creates a containing block for fixed children; drop it while the menu is open */
-body.menu-open .scroll-progress { display: none; }
+body.menu-open .scroll-progress,
+body.menu-open .header-cta-mobile { display: none; }
 body.menu-open .site-header {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
@@ -349,10 +350,14 @@ body.menu-open .site-header {
   margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
   color: var(--stone);
 }
-.hero-label span {
-  color: var(--ink);
-  padding-right: 0.75rem;
-  border-right: 1px solid var(--line-strong);
+.hero-label span:first-child { color: var(--ink); }
+.hero-label-extra { display: none; }
+@media (min-width: 30rem) {
+  .hero-label span:first-child {
+    padding-right: 0.75rem;
+    border-right: 1px solid var(--line-strong);
+  }
+  .hero-label-extra { display: inline; }
 }
 
 .hero-title {
@@ -1284,6 +1289,6 @@ body.menu-open .site-header {
     transition-delay: 0s !important;
   }
   .js .signal-row, .js .reveal { opacity: 1; transform: none; }
-  .js .hero-mark { background-size: 100% 0.12em; }
+  .js .hero-mark { background-size: 100% 0.065em; }
   .flow::after, .signal-dot { display: none; }
 }

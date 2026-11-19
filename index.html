@@ -26,9 +26,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=3">
   <script>document.documentElement.classList.add('js');</script>
-  <script src="script.js" defer></script>
+  <script src="script.js?v=3" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -78,7 +78,7 @@
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="hero-label mono"><span>KeceLabs</span>Digital solutions studio</p>
+          <p class="hero-label mono"><span>Digital solutions studio</span><span class="hero-label-extra">Websites &amp; lead automation</span></p>
 
           <h1 class="hero-title" id="hero-title">
             <span class="line">Turn more</span>
@@ -420,7 +420,7 @@
               </div>
               <div class="field">
                 <label for="f-phone">Phone number</label>
-                <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" pattern="[0-9+()\-.\s]{7,40}" aria-describedby="f-phone-hint f-phone-err">
+                <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" pattern="[0-9+\(\)\-\.\s]{7,40}" aria-describedby="f-phone-hint f-phone-err">
                 <p class="field-hint" id="f-phone-hint">Required only if you'd like text messages.</p>
                 <p class="field-error" id="f-phone-err" data-error-for="f-phone"></p>
               </div>
