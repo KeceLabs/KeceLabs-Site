@@ -4,7 +4,11 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // A reload should start at the top of the page, not wherever the visitor was scrolled.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
   document.addEventListener('DOMContentLoaded', function () {
+    initAnchorLinks();
     setYear();
     initHeader();
     initMobileMenu();
@@ -13,6 +17,42 @@
     initPrefillLinks();
     initContactForm();
   });
+
+  /* ---------- In-page links ----------
+     Scroll to sections without writing "#section" into the address bar,
+     so reloading the page doesn't jump back down to the last section clicked. */
+  function initAnchorLinks() {
+    // Arrived from another page with a hash (e.g. privacy.html → index.html#contact):
+    // jump to that section, then tidy the address bar so a reload starts at the top.
+    var landing = location.hash && document.getElementById(location.hash.slice(1));
+    if (landing) {
+      history.replaceState(null, '', location.pathname + location.search);
+      // 'instant' overrides the CSS smooth scrolling for this initial jump.
+      var jump = function () { landing.scrollIntoView({ behavior: 'instant', block: 'start' }); };
+      jump();
+      var landedAt = window.scrollY;
+      // Re-align once fonts and layout have settled, unless the visitor has already scrolled.
+      window.addEventListener('load', function () {
+        if (Math.abs(window.scrollY - landedAt) < 2) jump();
+      }, { once: true });
+    }
+
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      var id = link.getAttribute('href').slice(1);
+      var target = id && document.getElementById(id);
+      if (!target) return;
+
+      e.preventDefault();
+      target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+
+      // Move keyboard/screen-reader focus to the section, as a normal anchor jump would.
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    });
+  }
 
   /* ---------- Footer year ---------- */
   function setYear() {

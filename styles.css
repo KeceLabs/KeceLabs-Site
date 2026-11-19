@@ -96,6 +96,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   outline: 2px solid var(--signal);
   outline-offset: 3px;
 }
+/* Sections receive focus after in-page navigation; they don't need a ring. */
+section[tabindex="-1"]:focus, main[tabindex="-1"]:focus { outline: none; }
 
 /* ---------- Buttons ---------- */
 .btn {
