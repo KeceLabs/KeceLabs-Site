@@ -1,0 +1,49 @@
+# KeceLabs — Netlify configuration
+# Static site: no build step. Netlify publishes the project root as-is.
+
+[build]
+  publish = "."
+  command = ""
+
+# Netlify Forms: the contact form in index.html is detected automatically at deploy
+# time via its `data-netlify="true"` attribute. Make sure "Form detection" is enabled
+# in Site configuration → Forms (it is on by default for new sites).
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Friendly URLs (Netlify also serves /privacy for privacy.html automatically).
+[[redirects]]
+  from = "/privacy-policy"
+  to = "/privacy.html"
+  status = 301
+
+[[redirects]]
+  from = "/terms-of-service"
+  to = "/terms.html"
+  status = 301
