@@ -24,9 +24,45 @@
   function initHeader() {
     var header = document.querySelector('[data-header]');
     if (!header) return;
-    var update = function () { header.classList.toggle('is-scrolled', window.scrollY > 8); };
+    var bar = header.querySelector('[data-progress]');
+    var ticking = false;
+    var update = function () {
+      ticking = false;
+      header.classList.toggle('is-scrolled', window.scrollY > 8);
+      if (bar) {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ')';
+      }
+    };
     update();
-    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+
+    // Highlight the nav link for the section in view.
+    var links = Array.prototype.slice.call(document.querySelectorAll('.nav-list a[href^="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var map = {};
+    links.forEach(function (a) {
+      var sec = document.querySelector(a.getAttribute('href'));
+      if (sec) map[sec.id] = a;
+    });
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var link = map[entry.target.id];
+        if (!link) return;
+        if (entry.isIntersecting) {
+          links.forEach(function (l) { l.classList.remove('is-active'); l.removeAttribute('aria-current'); });
+          link.classList.add('is-active');
+          link.setAttribute('aria-current', 'location');
+        } else if (link.classList.contains('is-active')) {
+          link.classList.remove('is-active');
+          link.removeAttribute('aria-current');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(map).forEach(function (id) { spy.observe(document.getElementById(id)); });
   }
 
   /* ---------- Mobile menu ---------- */
