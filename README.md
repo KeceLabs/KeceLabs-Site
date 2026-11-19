@@ -5,14 +5,21 @@ Static marketing site for KeceLabs (Build. Automate. Scale.). Plain HTML, CSS an
 ## Files
 | File | Purpose |
 |---|---|
-| `index.html` | Homepage (hero, services, Home Care Inquiry System, process, industries, contact form) |
+| `index.html` | Homepage (hero, problems, services, interactive Lead Response System demo, process, industries, contact form) |
 | `privacy.html`, `terms.html` | Legal pages (drafts; see "Before launch") |
 | `thanks.html` | Success page used when the form is submitted without JavaScript |
 | `404.html` | Not-found page (Netlify serves it automatically) |
 | `styles.css` | Entire design system (tokens at the top of the file) |
-| `script.js` | Mobile menu, scroll reveal, footer year, form validation + AJAX submission |
+| `script.js` | Mobile menu, section links, scroll reveal, footer year, Lead Response demo, form validation + AJAX submission |
 | `netlify.toml` | Publish root, security/cache headers, friendly legal redirects |
 | `favicon.svg`, `apple-touch-icon.png`, `og-image.png`, `robots.txt` | Icons, social preview, crawler rules |
+
+## Interactive demo
+The Lead Response System demo (`initDemo` in `script.js`) is a scripted simulation that runs entirely in the browser:
+no network requests, no AI/SMS/phone APIs, no serverless functions, and no input fields, so it has no per-use cost
+and collects no data. All names and numbers are fictional (555-01xx numbers are reserved for fiction).
+To change the wording, edit the `steps`, `log` and message text in the `SCENARIOS` object.
+If real integrations are added later, keep their credentials in server-side functions, never in frontend JavaScript.
 
 ## Run locally
 ```bash
@@ -37,3 +44,4 @@ Form submissions only work on Netlify. Locally the form shows its error state on
 - Confirm `hello@kecelabs.com` mailbox exists.
 - Have Privacy Policy and Terms reviewed by a lawyer; add governing law, legal entity name and mailing address; name the email/SMS providers in the Privacy Policy.
 - Update the "Last updated" date in `privacy.html` / `terms.html` when they change.
+- When you edit `styles.css` or `script.js`, bump the `?v=` number in each page's `<link>` and `<script>` tags.
